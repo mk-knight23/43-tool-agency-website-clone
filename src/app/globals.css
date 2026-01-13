@@ -1,26 +1,432 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Exact colors from original Bluelupin website */
+  --background: #080810;
+  --background-secondary: #0c0c18;
+  --background-card: #0e1018;
+  --foreground: #ffffff;
+  --foreground-muted: #8b8b9e;
+  --foreground-subtle: #5c5c70;
+
+  /* Brand colors */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #4facfe;
+  --accent-cyan: #00f2fe;
+  --accent-gradient-start: #4facfe;
+  --accent-gradient-end: #00f2fe;
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-card: rgba(255, 255, 255, 0.08);
+
+  /* Shadows */
+  --shadow-glow: 0 0 60px rgba(37, 99, 235, 0.15);
+  --shadow-button: 0 0 20px rgba(37, 99, 235, 0.3);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+/* ================================
+   TYPOGRAPHY - Exact Match
+   ================================ */
+
+h1 {
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+h5 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+h6 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--foreground-muted);
+}
+
+/* ================================
+   LAYOUT UTILITIES
+   ================================ */
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
+}
+
+.section {
+  padding: 140px 0;
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: 180px 0;
+  }
+}
+
+/* Label and section header utilities */
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--primary-light);
+}
+
+.text-caption {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--foreground-subtle);
+}
+
+.text-body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--foreground-muted);
+}
+
+/* ================================
+   GRADIENT TEXT - Exact Match
+   ================================ */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-gradient-start) 0%, var(--accent-gradient-end) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-blue {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ================================
+   BUTTONS - Exact Match
+   ================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #4facfe 0%, #2563eb 100%);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(79, 172, 254, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(79, 172, 254, 0.4);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background: transparent;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ================================
+   CARDS - Exact Match
+   ================================ */
+
+.card {
+  background: linear-gradient(180deg, rgba(14, 16, 24, 0.8) 0%, rgba(8, 8, 16, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 32px;
+  backdrop-filter: blur(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  border-color: rgba(79, 172, 254, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ================================
+   FLOATING ELEMENTS
+   ================================ */
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes float-delayed {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(-5deg);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes scroll-gallery {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-gallery {
+  animation: scroll-gallery 30s linear infinite;
+}
+
+.floating-cube {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.15) 0%, rgba(0, 242, 254, 0.1) 100%);
+  border: 1px solid rgba(79, 172, 254, 0.2);
+  border-radius: 16px;
+  animation: float 8s ease-in-out infinite;
+  backdrop-filter: blur(10px);
+}
+
+.floating-cube::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(79, 172, 254, 0.1) 100%);
+  border-radius: 16px;
+}
+
+/* ================================
+   PAGE BACKGROUNDS
+   ================================ */
+
+.page-gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(79, 172, 254, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(37, 99, 235, 0.05) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bottom-glow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(to top, rgba(79, 172, 254, 0.08) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ================================
+   FORM INPUTS - Exact Match
+   ================================ */
+
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: rgba(79, 172, 254, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+}
+
+/* ================================
+   RESPONSIVE BREAKPOINTS
+   ================================ */
+
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+
+  .section {
+    padding: 120px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 36px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  .section {
+    padding: 100px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}
+
+/* ================================
+   SCROLLBAR STYLING
+   ================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ================================
+   SELECTION STYLING
+   ================================ */
+
+::selection {
+  background: rgba(79, 172, 254, 0.3);
+  color: white;
 }
