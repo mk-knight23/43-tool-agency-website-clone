@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import { Motion } from '@motionone/vue'
 import { 
   ArrowRight, 
@@ -10,16 +10,35 @@ import {
   X,
   Github,
   Twitter,
-  Linkedin
+  Linkedin,
+  Settings
 } from 'lucide-vue-next'
+import { useSettings } from './stores/settings'
+import { useStats } from './stores/stats'
+import { useAudio } from './composables/useAudio'
+import { useKeyboardControls } from './composables/useKeyboardControls'
+import SettingsPanel from './components/ui/SettingsPanel.vue'
+
+const { isDarkMode, toggleHelp } = useSettings()
+const { recordVisit } = useStats()
+const audio = useAudio()
+const { lastAction } = useKeyboardControls()
 
 const isMenuOpen = ref(false)
 const scrolled = ref(false)
 
 onMounted(() => {
+  recordVisit()
+  
   window.addEventListener('scroll', () => {
     scrolled.value = window.scrollY > 50
   })
+})
+
+watchEffect(() => {
+  if (lastAction.value === 'help') {
+    toggleHelp()
+  }
 })
 
 const services = [
@@ -42,10 +61,15 @@ const services = [
     color: 'text-indigo-500'
   }
 ]
+
+function openSettings() {
+  audio.playClick()
+  toggleHelp()
+}
 </script>
 
 <template>
-  <div class="min-h-screen bg-agency-bg">
+  <div class="min-h-screen bg-agency-bg" :class="{ dark: isDarkMode, light: !isDarkMode }">
     <!-- Navigation -->
     <nav 
       class="fixed w-full z-50 transition-all duration-500 px-6 py-4"
@@ -54,22 +78,30 @@ const services = [
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="flex items-center space-x-2">
           <div class="w-10 h-10 bg-agency-primary rounded-lg flex items-center justify-center font-display font-black italic text-xl">BL</div>
-          <span class="font-display font-bold text-xl tracking-tighter">BlueLupin<span class="text-agency-accent">.</span></span>
+          <span class="font-display font-bold text-xl tracking-tighter text-white">BlueLupin<span class="text-agency-accent">.</span></span>
         </div>
 
         <div class="hidden md:flex items-center space-x-8">
-          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors">Vision</a>
-          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors">Services</a>
-          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors">Showcase</a>
+          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Vision</a>
+          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Services</a>
+          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Showcase</a>
+          <button @click="openSettings" class="p-2 rounded-full hover:bg-white/10 transition-colors">
+            <Settings class="text-slate-300" :size="20" />
+          </button>
           <button class="bg-white text-slate-950 px-6 py-2.5 rounded-full font-bold text-sm hover:bg-agency-accent hover:text-white transition-all">
             Start a Project
           </button>
         </div>
 
-        <button @click="isMenuOpen = !isMenuOpen" class="md:hidden p-2 text-white">
-          <Menu v-if="!isMenuOpen" />
-          <X v-else />
-        </button>
+        <div class="flex items-center space-x-4 md:hidden">
+          <button @click="openSettings" class="p-2 text-white">
+            <Settings :size="20" />
+          </button>
+          <button @click="isMenuOpen = !isMenuOpen" class="p-2 text-white">
+            <Menu v-if="!isMenuOpen" />
+            <X v-else />
+          </button>
+        </div>
       </div>
     </nav>
 
@@ -227,6 +259,8 @@ const services = [
         </p>
       </div>
     </footer>
+
+    <SettingsPanel />
   </div>
 </template>
 

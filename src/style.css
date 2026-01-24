@@ -4,7 +4,58 @@
 
 :root {
   color-scheme: dark;
+  --app-bg-light: #f5f7fa;
+  --app-bg-dark: #020617;
 }
+
+body {
+  @apply bg-agency-bg text-slate-100 font-sans selection:bg-agency-accent selection:text-white antialiased;
+  margin: 0;
+  display: block;
+  min-height: 100vh;
+}
+
+.dark {
+  color-scheme: dark;
+  --app-bg-dark: #020617;
+}
+
+.light {
+  color-scheme: light;
+  --app-bg-light: #f5f7fa;
+}
+
+.dark body {
+  @apply bg-agency-bg text-slate-100;
+}
+
+.light body {
+  @apply bg-slate-50 text-slate-900;
+}
+
+kbd {
+  @apply px-2 py-1 text-xs font-mono bg-slate-800 rounded border border-slate-700;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.glass {
+  @apply bg-slate-900/40 backdrop-blur-xl border border-white/5;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-agency-primary to-agency-accent;
+}
+
+#app {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
 
 body {
   @apply bg-agency-bg text-slate-100 font-sans selection:bg-agency-accent selection:text-white antialiased;
