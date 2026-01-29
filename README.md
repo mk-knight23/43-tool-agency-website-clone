@@ -1,63 +1,137 @@
 # BlueLupin - Premium Agency Website
 
-A high-fidelity digital agency website built with Vue 3, TypeScript, and Tailwind CSS. This project serves as a modern, performance-optimized clone of the BlueLupin agency presence, redesigned with a "Luxury Tech" aesthetic.
+A high-fidelity digital agency website built with Vue 3, TypeScript, and Tailwind CSS. Features a modern "Futuristic/Modern Agency" design system with dark theme, neon accents, bold typography, and advanced animations.
 
-## Features Comparison
+## Futuristic/Modern Agency Theme
 
-| Feature | Legacy Version | BlueLupin v2.0 |
-| :--- | :--- | :--- |
-| **Tech Stack** | Simple Next.js / HTML | **Vue 3 + Composition API + TypeScript + Vite** |
-| **Design** | Basic Layout | **Premium Luxury Design System** |
-| **Animations** | Static | **Advanced Motion & Scroll-triggered Transitions** |
-| **Responsiveness**| Standard | **Pixel-perfect fluidity across all devices** |
-| **Icons** | Limited | **Full Lucide Icon Integration** |
-| **Architecture** | Single-file | **Modular Section-based Component Architecture** |
+This application features a premium **"Luxury Tech"** design system:
+- Dark theme (#020617 background) with neon blue accents
+- Gradient overlays and glass morphism effects
+- Bold typography with Space Grotesk font
+- Modern animations and scroll-triggered transitions
+- Agency portfolio aesthetic
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Glass Morphism** | Frosted glass cards with backdrop blur |
+| **Neon Glow Effects** | Ambient glow and pulse animations |
+| **Gradient Typography** | Text with gradient clipping for headlines |
+| **Scroll Animations** | Motion-triggered fade and slide effects |
+| **Responsive Design** | Pixel-perfect across all devices |
+| **Dark/Light Mode** | Automatic theme switching |
+| **Keyboard Navigation** | Full keyboard shortcut support |
 
 ## Tech Stack
-- **Framework:** Vue 3 (Composition API)
+
+- **Framework:** Vue 3 (Composition API, TypeScript)
 - **Build Tool:** Vite
-- **Styling:** Tailwind CSS
+- **Styling:** Tailwind CSS v4
 - **Animations:** Motion (Framer Motion for Vue)
 - **Icons:** Lucide Vue
-- **State Management:** Pinia (Available for expansion)
+- **State Management:** Pinia
 
-## Project Structure
-```text
-src/
-├── components/         # Reusable UI elements
-├── sections/           # Large page building blocks (Hero, Services, CTA)
-├── style.css           # Global Tailwind & design system variables
-└── App.vue             # Main composition & layout engine
+## Design System
+
+See `design-system/MASTER.md` for complete design token documentation.
+
+### Color Palette
+```css
+--agency-primary: #2563eb;      /* Electric blue */
+--agency-accent: #38bdf8;       /* Cyan accent */
+--agency-bg: #020617;           /* Deep midnight */
+--neon-blue: #00d4ff;          /* Neon cyan */
 ```
 
-## Setup & Build Instructions
+### Key Components
+- `.glass` - Glass morphism card style
+- `.gradient-text` - Gradient text clipping
+- `.neon-glow` - Box glow effect
+- `.service-card` - Hover-lift service cards
+- `.btn-neon` - Glowing action buttons
 
-### Prerequisites
-- Node.js 18.x or higher
-- npm 10.x or higher
+### Animations
+```css
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
 
-### Installation
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(37, 99, 235, 0.8); }
+}
+```
+
+## Quick Start
+
 ```bash
 # Install dependencies
 npm install
-```
 
-### Development
-```bash
 # Start development server
 npm run dev
-```
 
-### Production Build
-```bash
 # Build for production
 npm run build
 ```
 
+## Project Structure
+
+```
+src/
+├── components/         # Reusable UI elements
+├── sections/           # Large page building blocks
+├── stores/            # Pinia state management
+├── composables/       # Vue composition functions
+├── style.css          # Global design system styles
+└── App.vue            # Main application
+```
+
+## Sections
+
+- **Hero** - Large typography with availability badge
+- **Services** - Grid of service cards with icons
+- **CTA** - Contact call-to-action with glass card
+- **Footer** - Social links and copyright
+
 ## Deployment
-Optimized for deployment on Vercel, Netlify, or GitHub Pages.
+
+This project is configured for deployment on three platforms:
+
+### GitHub Pages
+- **Workflow**: `.github/workflows/deploy.yml`
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Trigger**: Push to `main` branch
+- **Action**: `actions/deploy-page@v4` with Vite static site generator
+
+### Vercel
+- **Config**: `vercel.json`
+- **Framework**: Vite
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Rewrites**: SPA fallback to `/index.html`
+
+### Netlify
+- **Config**: `netlify.toml`
+- **Build Command**: `npm run build`
+- **Publish Directory**: `dist`
+- **Redirects**: All paths to `/index.html` (SPA support)
 
 ---
 
+## Live Links
+
+| Platform | URL |
+|----------|-----|
+| **GitHub Pages** | https://mk-knight23.github.io/43-tool-agency-website-clone/ |
+| **Vercel** | https://43-tool-agency-website-clone.vercel.app/ |
+| **Netlify** | https://43-tool-agency-website-clone.netlify.app/ |
+
+---
+
+**Theme:** Futuristic/Modern Agency
 **License:** MIT
 **Created by:** mk-knight23
