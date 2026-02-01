@@ -1,6 +1,17 @@
-# BlueLupin - Premium Agency Website
+# BlueLupin — Premium Agency Website
 
 A high-fidelity digital agency website built with Vue 3, TypeScript, and Tailwind CSS. Features a modern "Futuristic/Modern Agency" design system with dark theme, neon accents, bold typography, and advanced animations.
+
+## Recent Upgrades (v2.1.0)
+
+### Iterations 1-5: Complete Portfolio Upgrade
+- Added "Made by MK — Musharraf Kazi" branding
+- Enhanced design system documentation
+- Documented animation features
+- Verified Vue 3 + TypeScript build
+- All iterations completed systematically
+
+---
 
 ## Futuristic/Modern Agency Theme
 
