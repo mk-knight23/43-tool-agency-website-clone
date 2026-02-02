@@ -82,15 +82,15 @@ function openSettings() {
         </div>
 
         <div class="hidden md:flex items-center space-x-8">
-          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Vision</a>
-          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Services</a>
-          <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Showcase</a>
-          <button @click="openSettings" class="p-2 rounded-full hover:bg-white/10 transition-colors">
+          <a href="#vision" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Vision</a>
+          <a href="#services" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Services</a>
+          <a href="#contact" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Contact</a>
+          <button @click="openSettings" class="p-2 rounded-full hover:bg-white/10 transition-colors" aria-label="Settings">
             <Settings class="text-slate-300" :size="20" />
           </button>
-          <button class="bg-white text-slate-950 px-6 py-2.5 rounded-full font-bold text-sm hover:bg-agency-accent hover:text-white transition-all">
+          <a href="#contact" class="bg-white text-slate-950 px-6 py-2.5 rounded-full font-bold text-sm hover:bg-agency-accent hover:text-white transition-all">
             Start a Project
-          </button>
+          </a>
         </div>
 
         <div class="flex items-center space-x-4 md:hidden">
@@ -116,9 +116,9 @@ function openSettings() {
     >
       <div v-if="isMenuOpen" class="fixed inset-0 z-40 bg-slate-950 pt-24 px-6 md:hidden">
         <div class="flex flex-col space-y-8 text-center">
-          <a href="#" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Vision</a>
-          <a href="#" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Services</a>
-          <a href="#" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Showcase</a>
+          <a href="#vision" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Vision</a>
+          <a href="#services" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Services</a>
+          <a href="#contact" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Contact</a>
           <button class="bg-agency-primary text-white py-4 rounded-2xl font-black text-xl">
             Start a Project
           </button>
@@ -127,7 +127,7 @@ function openSettings() {
     </transition>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center px-6 overflow-hidden">
+    <section id="vision" class="relative min-h-screen flex items-center px-6 overflow-hidden scroll-mt-20">
       <!-- Animated Background Gradients -->
       <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-agency-primary/20 blur-[120px] rounded-full"></div>
       <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-agency-accent/10 blur-[100px] rounded-full"></div>
@@ -208,7 +208,7 @@ function openSettings() {
     </section>
 
     <!-- Services Section -->
-    <section class="py-32 px-6 bg-slate-950/50">
+    <section id="services" class="py-32 px-6 bg-slate-950/50 scroll-mt-20">
       <div class="max-w-7xl mx-auto space-y-20">
         <div class="text-center space-y-4">
           <h2 class="text-4xl md:text-6xl font-display font-black tracking-tight">Our Expertise</h2>
@@ -228,7 +228,7 @@ function openSettings() {
     </section>
 
     <!-- Contact CTA -->
-    <section class="py-32 px-6 relative overflow-hidden bg-slate-950">
+    <section id="contact" class="py-32 px-6 relative overflow-hidden bg-slate-950 scroll-mt-20">
       <div class="absolute inset-0 bg-agency-primary/5 blur-3xl rounded-full"></div>
       <div class="max-w-4xl mx-auto glass p-12 md:p-20 rounded-[4rem] text-center space-y-10 relative z-10 border-white/10">
         <h2 class="text-5xl md:text-7xl font-display font-black leading-tight tracking-tighter">
@@ -242,21 +242,36 @@ function openSettings() {
 
     <!-- Footer -->
     <footer class="py-12 px-6 border-t border-white/5 bg-agency-bg">
-      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-        <div class="flex items-center space-x-2 text-white">
-          <div class="w-8 h-8 bg-slate-800 rounded flex items-center justify-center font-display font-black italic text-sm text-slate-400 border border-white/10">BL</div>
-          <span class="font-display font-bold text-lg tracking-tighter">BlueLupin</span>
-        </div>
-        
-        <div class="flex items-center space-x-6 text-slate-500">
-          <Github class="hover:text-white cursor-pointer transition-colors" :size="20" />
-          <Twitter class="hover:text-white cursor-pointer transition-colors" :size="20" />
-          <Linkedin class="hover:text-white cursor-pointer transition-colors" :size="20" />
+      <div class="max-w-7xl mx-auto">
+        <!-- Made by MK Branding -->
+        <div class="text-center mb-8">
+          <p class="text-agency-accent text-xs font-bold uppercase tracking-[0.3em]">
+            Made by MK — Musharraf Kazi
+          </p>
         </div>
 
-        <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">
-          © 2026 BlueLupin Global. Architecture by Staff Engineering.
-        </p>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+          <div class="flex items-center space-x-2 text-white">
+            <div class="w-8 h-8 bg-slate-800 rounded flex items-center justify-center font-display font-black italic text-sm text-slate-400 border border-white/10">BL</div>
+            <span class="font-display font-bold text-lg tracking-tighter">BlueLupin</span>
+          </div>
+
+          <div class="flex items-center space-x-6 text-slate-500">
+            <a href="https://github.com/mk-knight23" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">
+              <Github :size="20" />
+            </a>
+            <a href="#" class="hover:text-white transition-colors">
+              <Twitter :size="20" />
+            </a>
+            <a href="#" class="hover:text-white transition-colors">
+              <Linkedin :size="20" />
+            </a>
+          </div>
+
+          <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">
+            © 2026 BlueLupin Global
+          </p>
+        </div>
       </div>
     </footer>
 
