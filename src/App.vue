@@ -1,17 +1,25 @@
 <script setup lang="ts">
 import { ref, onMounted, watchEffect } from 'vue'
 import { Motion } from '@motionone/vue'
-import { 
-  ArrowRight, 
-  Code2, 
-  Cpu, 
-  Globe, 
+import {
+  ArrowRight,
+  ArrowUp,
+  Code2,
+  Cpu,
+  Globe,
+  Palette,
+  Smartphone,
+  Zap,
   Menu,
   X,
   Github,
   Twitter,
   Linkedin,
-  Settings
+  Settings,
+  Send,
+  Mail,
+  User,
+  MessageSquare
 } from 'lucide-vue-next'
 import { useSettings } from './stores/settings'
 import { useStats } from './stores/stats'
@@ -27,13 +35,21 @@ const { lastAction } = useKeyboardControls()
 const isMenuOpen = ref(false)
 const scrolled = ref(false)
 
+// Back to top visibility
+const showBackToTop = ref(false)
+
 onMounted(() => {
   recordVisit()
-  
+
   window.addEventListener('scroll', () => {
     scrolled.value = window.scrollY > 50
+    showBackToTop.value = window.scrollY > 500
   })
 })
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 watchEffect(() => {
   if (lastAction.value === 'help') {
@@ -62,6 +78,47 @@ const services = [
   }
 ]
 
+const projects = [
+  {
+    title: 'FinTech Dashboard',
+    category: 'Web Application',
+    desc: 'Real-time trading platform with advanced analytics',
+    icon: Zap,
+    color: 'from-yellow-500 to-orange-500'
+  },
+  {
+    title: 'E-Commerce Platform',
+    category: 'Full Stack',
+    desc: 'Global retail solution with AI recommendations',
+    icon: Smartphone,
+    color: 'from-purple-500 to-pink-500'
+  },
+  {
+    title: 'Brand Identity System',
+    category: 'Design System',
+    desc: 'Complete visual identity for tech unicorn',
+    icon: Palette,
+    color: 'from-blue-500 to-cyan-500'
+  }
+]
+
+// Contact form state
+const formData = ref({
+  name: '',
+  email: '',
+  message: ''
+})
+const formSubmitted = ref(false)
+
+function submitForm() {
+  // Simulate form submission
+  formSubmitted.value = true
+  setTimeout(() => {
+    formSubmitted.value = false
+    formData.value = { name: '', email: '', message: '' }
+  }, 3000)
+}
+
 function openSettings() {
   audio.playClick()
   toggleHelp()
@@ -84,6 +141,7 @@ function openSettings() {
         <div class="hidden md:flex items-center space-x-8">
           <a href="#vision" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Vision</a>
           <a href="#services" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Services</a>
+          <a href="#projects" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Work</a>
           <a href="#contact" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Contact</a>
           <button @click="openSettings" class="p-2 rounded-full hover:bg-white/10 transition-colors" aria-label="Settings">
             <Settings class="text-slate-300" :size="20" />
@@ -118,6 +176,7 @@ function openSettings() {
         <div class="flex flex-col space-y-8 text-center">
           <a href="#vision" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Vision</a>
           <a href="#services" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Services</a>
+          <a href="#projects" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Work</a>
           <a href="#contact" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Contact</a>
           <button class="bg-agency-primary text-white py-4 rounded-2xl font-black text-xl">
             Start a Project
@@ -227,18 +286,131 @@ function openSettings() {
       </div>
     </section>
 
-    <!-- Contact CTA -->
-    <section id="contact" class="py-32 px-6 relative overflow-hidden bg-slate-950 scroll-mt-20">
-      <div class="absolute inset-0 bg-agency-primary/5 blur-3xl rounded-full"></div>
-      <div class="max-w-4xl mx-auto glass p-12 md:p-20 rounded-[4rem] text-center space-y-10 relative z-10 border-white/10">
-        <h2 class="text-5xl md:text-7xl font-display font-black leading-tight tracking-tighter">
-          Ready to build <br/> something <span class="gradient-text italic">Extraordinary?</span>
-        </h2>
-        <button class="bg-white text-slate-950 px-12 py-5 rounded-full font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-white/10">
-          Connect with Us
-        </button>
+    <!-- Projects Section -->
+    <section id="projects" class="py-32 px-6 bg-agency-bg scroll-mt-20">
+      <div class="max-w-7xl mx-auto space-y-20">
+        <div class="text-center space-y-4">
+          <Motion
+            :initial="{ opacity: 0, y: 20 }"
+            :while-in-view="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.6 }"
+          >
+            <span class="inline-block px-4 py-1 rounded-full bg-agency-primary/10 text-agency-accent text-xs font-black uppercase tracking-[0.2em] mb-4">
+              Portfolio
+            </span>
+          </Motion>
+          <h2 class="text-4xl md:text-6xl font-display font-black tracking-tight">Featured Work</h2>
+          <p class="text-slate-500 font-medium max-w-xl mx-auto italic">Selected projects that showcase our expertise.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div v-for="project in projects" :key="project.title"
+               class="group relative overflow-hidden rounded-[2rem] bg-slate-900 border border-white/5 hover:border-agency-primary/50 transition-all duration-500">
+            <div :class="`h-48 bg-gradient-to-br ${project.color} opacity-20 group-hover:opacity-30 transition-opacity`"></div>
+            <div class="p-8">
+              <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6">
+                <component :is="project.icon" class="w-6 h-6 text-white" />
+              </div>
+              <span class="text-xs font-bold uppercase tracking-wider text-agency-accent">{{ project.category }}</span>
+              <h3 class="text-xl font-display font-bold mt-2 mb-3">{{ project.title }}</h3>
+              <p class="text-slate-400 text-sm">{{ project.desc }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 px-6 relative overflow-hidden bg-slate-950 scroll-mt-20">
+      <div class="absolute inset-0 bg-agency-primary/5 blur-3xl rounded-full"></div>
+      <div class="max-w-4xl mx-auto space-y-16 relative z-10">
+        <!-- CTA Card -->
+        <div class="glass p-12 md:p-20 rounded-[4rem] text-center space-y-10 border-white/10">
+          <h2 class="text-5xl md:text-7xl font-display font-black leading-tight tracking-tighter">
+            Ready to build <br/> something <span class="gradient-text italic">Extraordinary?</span>
+          </h2>
+          <a href="#contact-form" class="inline-block bg-white text-slate-950 px-12 py-5 rounded-full font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-white/10">
+            Connect with Us
+          </a>
+        </div>
+
+        <!-- Contact Form -->
+        <div id="contact-form" class="glass p-8 md:p-12 rounded-[2rem] border-white/10">
+          <h3 class="text-2xl font-display font-bold mb-8 text-center">Send us a Message</h3>
+
+          <form @submit.prevent="submitForm" class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-400 flex items-center gap-2">
+                  <User :size="14" /> Name
+                </label>
+                <input
+                  v-model="formData.name"
+                  type="text"
+                  required
+                  class="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl focus:border-agency-primary focus:outline-none transition-colors text-white"
+                  placeholder="Your name"
+                />
+              </div>
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-400 flex items-center gap-2">
+                  <Mail :size="14" /> Email
+                </label>
+                <input
+                  v-model="formData.email"
+                  type="email"
+                  required
+                  class="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl focus:border-agency-primary focus:outline-none transition-colors text-white"
+                  placeholder="your@email.com"
+                />
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-slate-400 flex items-center gap-2">
+                <MessageSquare :size="14" /> Message
+              </label>
+              <textarea
+                v-model="formData.message"
+                required
+                rows="4"
+                class="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl focus:border-agency-primary focus:outline-none transition-colors text-white resize-none"
+                placeholder="Tell us about your project..."
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              :disabled="formSubmitted"
+              class="w-full bg-agency-primary hover:bg-agency-primary/90 disabled:bg-agency-primary/50 text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all"
+            >
+              <span v-if="formSubmitted">Message Sent!</span>
+              <span v-else>Send Message</span>
+              <Send :size="18" />
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 translate-y-4"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 translate-y-4"
+    >
+      <button
+        v-if="showBackToTop"
+        @click="scrollToTop"
+        class="fixed bottom-8 right-8 z-40 p-4 bg-agency-primary text-white rounded-full shadow-lg shadow-agency-primary/30 hover:bg-agency-primary/90 transition-all hover:scale-110"
+        aria-label="Back to top"
+      >
+        <ArrowUp :size="20" />
+      </button>
+    </transition>
 
     <!-- Footer -->
     <footer class="py-12 px-6 border-t border-white/5 bg-agency-bg">
