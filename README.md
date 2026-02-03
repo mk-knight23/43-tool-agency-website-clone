@@ -2,36 +2,53 @@
 
 A high-fidelity digital agency website built with Vue 3, TypeScript, and Tailwind CSS. Features a modern "Futuristic/Modern Agency" design system with dark theme, neon accents, bold typography, and advanced animations.
 
-## Recent Upgrades (v2.1.0)
+## What's New (v3.0.0)
 
-### Iterations 1-5: Complete Portfolio Upgrade
-- Added "Made by MK — Musharraf Kazi" branding
-- Enhanced design system documentation
-- Documented animation features
-- Verified Vue 3 + TypeScript build
-- All iterations completed systematically
+### Major Features
+- **CMS System** — JSON-based content management with localStorage persistence
+- **Team Section** — Team members showcase with social links and expertise
+- **Enhanced Portfolio** — Project filtering, categories, featured work, case studies
+- **Enhanced Services** — Detailed service listings with process steps and pricing
+- **Testimonials** — Client reviews with carousel and ratings
+- **Blog Section** — News/articles with categories, filtering, and read time
+- **Advanced Analytics** — Page views, scroll depth, time tracking, section engagement
+- **Admin Panel** — Content management interface with export/import
+
+### Improvements
+- Comprehensive TypeScript type definitions
+- Modular section-based architecture
+- Enhanced navigation with all sections
+- Improved responsive design
+- Real-time analytics tracking
+- Content export/import functionality
 
 ---
 
-## Futuristic/Modern Agency Theme
-
-This application features a premium **"Luxury Tech"** design system:
-- Dark theme (#020617 background) with neon blue accents
-- Gradient overlays and glass morphism effects
-- Bold typography with Space Grotesk font
-- Modern animations and scroll-triggered transitions
-- Agency portfolio aesthetic
-
 ## Features
 
+### Core Sections
 | Feature | Description |
 |---------|-------------|
+| **Hero** — Large typography with availability badge |
+| **Services** — 6 service cards with features, process, and pricing |
+| **Portfolio** — Project showcase with filtering and categories |
+| **Team** — 4 team members with expertise and social links |
+| **Testimonials** — Client reviews with carousel navigation |
+| **Blog** — 6 articles with categories and filtering |
+| **Contact** — Validated form with loading and success states |
+
+### Advanced Features
+| Feature | Description |
+|---------|-------------|
+| **CMS System** | JSON-based content management with localStorage |
+| **Admin Panel** | Content management interface (password: admin123) |
+| **Analytics** | Page views, scroll depth, time tracking, section engagement |
+| **Export/Import** | Backup and restore CMS data |
 | **Glass Morphism** | Frosted glass cards with backdrop blur |
 | **Neon Glow Effects** | Ambient glow and pulse animations |
 | **Gradient Typography** | Text with gradient clipping for headlines |
 | **Scroll Animations** | Motion-triggered fade and slide effects |
 | **Responsive Design** | Pixel-perfect across all devices |
-| **Dark/Light Mode** | Automatic theme switching |
 | **Keyboard Navigation** | Full keyboard shortcut support |
 
 ## Tech Stack
@@ -41,38 +58,36 @@ This application features a premium **"Luxury Tech"** design system:
 - **Styling:** Tailwind CSS v4
 - **Animations:** Motion (Framer Motion for Vue)
 - **Icons:** Lucide Vue
-- **State Management:** Pinia
 
-## Design System
+## Project Structure
 
-See `design-system/MASTER.md` for complete design token documentation.
-
-### Color Palette
-```css
---agency-primary: #2563eb;      /* Electric blue */
---agency-accent: #38bdf8;       /* Cyan accent */
---agency-bg: #020617;           /* Deep midnight */
---neon-blue: #00d4ff;          /* Neon cyan */
 ```
-
-### Key Components
-- `.glass` - Glass morphism card style
-- `.gradient-text` - Gradient text clipping
-- `.neon-glow` - Box glow effect
-- `.service-card` - Hover-lift service cards
-- `.btn-neon` - Glowing action buttons
-
-### Animations
-```css
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.4); }
-  50% { box-shadow: 0 0 40px rgba(37, 99, 235, 0.8); }
-}
+src/
+├── components/
+│   ├── admin/          # Admin panel component
+│   └── ui/             # UI components (SettingsPanel)
+├── composables/        # Vue composition functions
+│   ├── useAnalytics.ts # Analytics tracking
+│   ├── useAudio.ts     # Audio feedback
+│   ├── useCMS.ts       # CMS data management
+│   └── useKeyboardControls.ts
+├── data/
+│   └── cms-data.ts    # Default CMS content
+├── sections/           # Page sections
+│   ├── BlogSection.vue
+│   ├── PortfolioSection.vue
+│   ├── ServicesSection.vue
+│   ├── TeamSection.vue
+│   └── TestimonialsSection.vue
+├── stores/             # Pinia state management
+│   ├── settings.ts     # User settings
+│   └── stats.ts        # Visit statistics
+├── types/              # TypeScript definitions
+│   └── index.ts        # Core interfaces
+├── utils/              # Utility functions
+│   └── constants.ts    # App constants
+├── style.css           # Global design system
+└── App.vue             # Main application
 ```
 
 ## Quick Start
@@ -88,61 +103,57 @@ npm run dev
 npm run build
 ```
 
-## Project Structure
-
-```
-src/
-├── components/         # Reusable UI elements
-├── sections/           # Large page building blocks
-├── stores/            # Pinia state management
-├── composables/       # Vue composition functions
-├── style.css          # Global design system styles
-└── App.vue            # Main application
-```
-
 ## Sections
 
-- **Hero** - Large typography with availability badge
-- **Services** - Grid of service cards with icons
-- **CTA** - Contact call-to-action with glass card
-- **Footer** - Social links and copyright
+1. **Hero** — Large typography with availability badge
+2. **Services** — 6 detailed service offerings with process steps
+3. **Portfolio** — 6 projects with filtering and categories
+4. **Team** — 4 team members with expertise and social links
+5. **Testimonials** — 6 client reviews with carousel
+6. **Blog** — 6 articles with category filtering
+7. **Contact** — Contact form and CTA
+8. **Footer** — Social links and branding
+
+## Admin Panel
+
+Access the admin panel by clicking the gear icon in the bottom-left corner.
+
+**Default Password:** `admin123`
+
+### Admin Features
+- **Overview** — System statistics and content counts
+- **CMS Management** — Export/import content data
+- **Analytics Dashboard** — View visitor statistics and engagement
+
+## CMS Data
+
+All content is managed through the CMS system located in `src/data/cms-data.ts`:
+
+- **Team Members** — 4 team members with roles and expertise
+- **Services** — 6 services with features and pricing
+- **Projects** — 6 projects (3 featured) with details
+- **Testimonials** — 6 client reviews
+- **Blog Posts** — 6 articles (2 featured)
 
 ## Deployment
 
-This project is configured for deployment on three platforms:
+### Vercel
+```bash
+vercel --prod
+```
 
 ### GitHub Pages
-- **Workflow**: `.github/workflows/deploy.yml`
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-- **Trigger**: Push to `main` branch
-- **Action**: `actions/deploy-page@v4` with Vite static site generator
-
-### Vercel
-- **Config**: `vercel.json`
-- **Framework**: Vite
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-- **Rewrites**: SPA fallback to `/index.html`
-
-### Netlify
-- **Config**: `netlify.toml`
-- **Build Command**: `npm run build`
-- **Publish Directory**: `dist`
-- **Redirects**: All paths to `/index.html` (SPA support)
-
----
+Builds automatically on push to main via GitHub Actions.
 
 ## Live Links
 
 | Platform | URL |
 |----------|-----|
-| **GitHub Pages** | https://mk-knight23.github.io/43-tool-agency-website-clone/ |
 | **Vercel** | https://43-tool-agency-website-clone.vercel.app/ |
-| **Netlify** | https://43-tool-agency-website-clone.netlify.app/ |
+| **GitHub Pages** | https://mk-knight23.github.io/43-tool-agency-website-clone/ |
 
 ---
 
 **Theme:** Futuristic/Modern Agency
 **License:** MIT
-**Created by:** mk-knight23
+**Author:** Made by MK — Musharraf Kazi

@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, onMounted, watchEffect, onUnmounted } from 'vue'
 import { Motion } from '@motionone/vue'
 import {
   ArrowRight,
   ArrowUp,
-  Code2,
-  Cpu,
-  Globe,
-  Palette,
-  Smartphone,
-  Zap,
   Menu,
   X,
   Github,
@@ -25,12 +19,20 @@ import { useSettings } from './stores/settings'
 import { useStats } from './stores/stats'
 import { useAudio } from './composables/useAudio'
 import { useKeyboardControls } from './composables/useKeyboardControls'
+import { useAnalytics } from './composables/useAnalytics'
 import SettingsPanel from './components/ui/SettingsPanel.vue'
+import AdminPanel from './components/admin/AdminPanel.vue'
+import ServicesSection from './sections/ServicesSection.vue'
+import PortfolioSection from './sections/PortfolioSection.vue'
+import TeamSection from './sections/TeamSection.vue'
+import TestimonialsSection from './sections/TestimonialsSection.vue'
+import BlogSection from './sections/BlogSection.vue'
 
 const { isDarkMode, toggleHelp } = useSettings()
 const { recordVisit } = useStats()
 const audio = useAudio()
 const { lastAction } = useKeyboardControls()
+const analytics = useAnalytics()
 
 const isMenuOpen = ref(false)
 const scrolled = ref(false)
@@ -38,13 +40,19 @@ const scrolled = ref(false)
 // Back to top visibility
 const showBackToTop = ref(false)
 
+
 onMounted(() => {
   recordVisit()
+  analytics.setup()
 
   window.addEventListener('scroll', () => {
     scrolled.value = window.scrollY > 50
     showBackToTop.value = window.scrollY > 500
   })
+})
+
+onUnmounted(() => {
+  analytics.cleanup()
 })
 
 function scrollToTop() {
@@ -57,50 +65,6 @@ watchEffect(() => {
   }
 })
 
-const services = [
-  {
-    title: 'Web Engineering',
-    desc: 'Bespoke web applications built with the latest reactive frameworks for high performance.',
-    icon: Code2,
-    color: 'text-blue-500'
-  },
-  {
-    title: 'Cloud Infrastructure',
-    desc: 'Scalable, secure cloud solutions designed to grow with your enterprise.',
-    icon: Cpu,
-    color: 'text-cyan-500'
-  },
-  {
-    title: 'Global Branding',
-    desc: 'Transforming identities into digital powerhouses that resonate worldwide.',
-    icon: Globe,
-    color: 'text-indigo-500'
-  }
-]
-
-const projects = [
-  {
-    title: 'FinTech Dashboard',
-    category: 'Web Application',
-    desc: 'Real-time trading platform with advanced analytics',
-    icon: Zap,
-    color: 'from-yellow-500 to-orange-500'
-  },
-  {
-    title: 'E-Commerce Platform',
-    category: 'Full Stack',
-    desc: 'Global retail solution with AI recommendations',
-    icon: Smartphone,
-    color: 'from-purple-500 to-pink-500'
-  },
-  {
-    title: 'Brand Identity System',
-    category: 'Design System',
-    desc: 'Complete visual identity for tech unicorn',
-    icon: Palette,
-    color: 'from-blue-500 to-cyan-500'
-  }
-]
 
 // Contact form state with validation
 const formData = ref({
@@ -173,10 +137,13 @@ function openSettings() {
           <span class="font-display font-bold text-xl tracking-tighter text-white">BlueLupin<span class="text-agency-accent">.</span></span>
         </div>
 
-        <div class="hidden md:flex items-center space-x-8">
+        <div class="hidden md:flex items-center space-x-6">
           <a href="#vision" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Vision</a>
           <a href="#services" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Services</a>
-          <a href="#projects" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Work</a>
+          <a href="#portfolio" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Work</a>
+          <a href="#team" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Team</a>
+          <a href="#testimonials" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Reviews</a>
+          <a href="#blog" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Blog</a>
           <a href="#contact" class="text-sm font-bold uppercase tracking-widest hover:text-agency-accent transition-colors text-slate-300">Contact</a>
           <button @click="openSettings" class="p-2 rounded-full hover:bg-white/10 transition-colors" aria-label="Settings">
             <Settings class="text-slate-300" :size="20" />
@@ -208,12 +175,15 @@ function openSettings() {
       leave-to-class="opacity-0 translate-y-[-20px]"
     >
       <div v-if="isMenuOpen" class="fixed inset-0 z-40 bg-slate-950 pt-24 px-6 md:hidden">
-        <div class="flex flex-col space-y-8 text-center">
-          <a href="#vision" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Vision</a>
-          <a href="#services" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Services</a>
-          <a href="#projects" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Work</a>
-          <a href="#contact" class="text-3xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Contact</a>
-          <button class="bg-agency-primary text-white py-4 rounded-2xl font-black text-xl">
+        <div class="flex flex-col space-y-6 text-center">
+          <a href="#vision" class="text-2xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Vision</a>
+          <a href="#services" class="text-2xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Services</a>
+          <a href="#portfolio" class="text-2xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Work</a>
+          <a href="#team" class="text-2xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Team</a>
+          <a href="#testimonials" class="text-2xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Reviews</a>
+          <a href="#blog" class="text-2xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Blog</a>
+          <a href="#contact" class="text-2xl font-display font-bold tracking-tighter" @click="isMenuOpen = false">Contact</a>
+          <button class="bg-agency-primary text-white py-4 rounded-2xl font-black text-xl mt-4">
             Start a Project
           </button>
         </div>
@@ -302,58 +272,19 @@ function openSettings() {
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-32 px-6 bg-slate-950/50 scroll-mt-20">
-      <div class="max-w-7xl mx-auto space-y-20">
-        <div class="text-center space-y-4">
-          <h2 class="text-4xl md:text-6xl font-display font-black tracking-tight">Our Expertise</h2>
-          <p class="text-slate-500 font-medium max-w-xl mx-auto italic">Bridging the gap between conceptual design and scalable engineering.</p>
-        </div>
+    <ServicesSection />
 
-        <div class="grid md:grid-cols-3 gap-8">
-          <div v-for="service in services" :key="service.title" class="glass p-10 rounded-[2.5rem] hover:bg-white/5 transition-all group cursor-default">
-            <div class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-agency-primary transition-colors">
-              <component :is="service.icon" :class="service.color" class="group-hover:text-white transition-colors" />
-            </div>
-            <h3 class="text-2xl font-display font-bold mb-4">{{ service.title }}</h3>
-            <p class="text-slate-400 leading-relaxed">{{ service.desc }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Portfolio Section -->
+    <PortfolioSection />
 
-    <!-- Projects Section -->
-    <section id="projects" class="py-32 px-6 bg-agency-bg scroll-mt-20">
-      <div class="max-w-7xl mx-auto space-y-20">
-        <div class="text-center space-y-4">
-          <Motion
-            :initial="{ opacity: 0, y: 20 }"
-            :while-in-view="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.6 }"
-          >
-            <span class="inline-block px-4 py-1 rounded-full bg-agency-primary/10 text-agency-accent text-xs font-black uppercase tracking-[0.2em] mb-4">
-              Portfolio
-            </span>
-          </Motion>
-          <h2 class="text-4xl md:text-6xl font-display font-black tracking-tight">Featured Work</h2>
-          <p class="text-slate-500 font-medium max-w-xl mx-auto italic">Selected projects that showcase our expertise.</p>
-        </div>
+    <!-- Team Section -->
+    <TeamSection />
 
-        <div class="grid md:grid-cols-3 gap-8">
-          <div v-for="project in projects" :key="project.title"
-               class="group relative overflow-hidden rounded-[2rem] bg-slate-900 border border-white/5 hover:border-agency-primary/50 transition-all duration-500">
-            <div :class="`h-48 bg-gradient-to-br ${project.color} opacity-20 group-hover:opacity-30 transition-opacity`"></div>
-            <div class="p-8">
-              <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6">
-                <component :is="project.icon" class="w-6 h-6 text-white" />
-              </div>
-              <span class="text-xs font-bold uppercase tracking-wider text-agency-accent">{{ project.category }}</span>
-              <h3 class="text-xl font-display font-bold mt-2 mb-3">{{ project.title }}</h3>
-              <p class="text-slate-400 text-sm">{{ project.desc }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Testimonials Section -->
+    <TestimonialsSection />
+
+    <!-- Blog Section -->
+    <BlogSection />
 
     <!-- Contact Section -->
     <section id="contact" class="py-32 px-6 relative overflow-hidden bg-slate-950 scroll-mt-20">
@@ -494,6 +425,7 @@ function openSettings() {
     </footer>
 
     <SettingsPanel />
+    <AdminPanel />
   </div>
 </template>
 
