@@ -39,13 +39,18 @@ function loadAnalytics(): AnalyticsData {
 
 // Save analytics data
 function saveAnalytics(data: AnalyticsData): void {
+  // Only track in non-production or if explicit flag is set
+  const isDev = import.meta.env.DEV;
+
   try {
-    // Keep only last 1000 events to prevent storage overflow
-    const trimmedEvents = data.events.slice(-1000)
-    const trimmedData = { ...data, events: trimmedEvents }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmedData))
+    // Keep only last 500 events to prevent storage overflow in production
+    const maxEvents = isDev ? 1000 : 500;
+    const trimmedEvents = data.events.slice(-maxEvents);
+    const trimmedData = { ...data, events: trimmedEvents };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmedData));
   } catch (e) {
-    console.warn('Failed to save analytics')
+    if (isDev) console.warn('BlueLupin | Failed to save analytics data:', e);
   }
 }
 

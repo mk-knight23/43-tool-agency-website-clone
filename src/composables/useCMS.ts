@@ -144,11 +144,20 @@ export function useCMS() {
   const importData = (jsonData: string) => {
     try {
       const parsed = JSON.parse(jsonData)
+
+      // Basic schema validation
+      const requiredKeys: (keyof CMSData)[] = ['team', 'services', 'projects', 'testimonials', 'blogPosts'];
+      const hasAllKeys = requiredKeys.every(key => Array.isArray(parsed[key]));
+
+      if (!hasAllKeys) {
+        throw new Error('Data structure mismatch: Missing required CMS arrays');
+      }
+
       cmsData.value = parsed
       saveCMSData(cmsData.value)
       return true
     } catch (e) {
-      console.error('Failed to import CMS data:', e)
+      console.error('BlueLupin | CMS Import Failed:', e)
       return false
     }
   }
